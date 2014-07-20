@@ -1,0 +1,19 @@
+sourceforge.net does not provide rsync or ftp access for downloads,
+enforcing use of it's http/html site.
+
+while heanet and mirrorservice.org provides some rsync access, none of
+them are synchronizend with sf.net 
+
+(this is confirmed with this page:
+http://sourceforge.net/p/forge/documentation/Mirrors/ .
+
+""" 
+Please keep in mind that not all mirrors will be enabled at once
+(mirrors sometimes are pulled from rotation), and not all mirrors have
+all files; some of the mirrors listed here may not be shown when you
+try to download a file.
+"""
+)
+
+so. this project is aimed to help access files on sf.net
+programmaticly.
