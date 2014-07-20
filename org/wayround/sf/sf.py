@@ -23,37 +23,41 @@ def listdir(project, path='/'):
     if not path.endswith('/'):
         path = path + '/'
 
-    page_parsed = lxml.html.parse(
-        'http://sourceforge.net/projects/{}/files{}'.format(
-            project,
-            path
+    try:
+        page_parsed = lxml.html.parse(
+            'http://sourceforge.net/projects/{}/files{}'.format(
+                project,
+                path
+                )
             )
-        )
+    except OSError:
+        page_parsed = None
 
-    file_list_table = page_parsed.find('//table[@id="files_list"]')
+    if page_parsed is not None:
+        file_list_table = page_parsed.find('//table[@id="files_list"]')
 
-    if file_list_table is None:
-        pass
-    else:
+        if file_list_table is None:
+            pass
+        else:
 
-        file_list_table_tbody = file_list_table.find('tbody')
+            file_list_table_tbody = file_list_table.find('tbody')
 
-        folder_trs = file_list_table_tbody.findall('tr')
+            folder_trs = file_list_table_tbody.findall('tr')
 
-        folders = []
-        files = {}
+            folders = []
+            files = {}
 
-        for i in folder_trs:
-            if 'folder' in i.get('class', ''):
-                folders.append(i.get('title', '(error-title)'))
+            for i in folder_trs:
+                if 'folder' in i.get('class', ''):
+                    folders.append(i.get('title', '(error-title)'))
 
-            elif 'file' in i.get('class', ''):
-                a = i.find('.//a[@class="name"]')
-                if a is not None:
-                    files[
-                        i.get('title', '(error-title)')] = a.get('href', None)
+                elif 'file' in i.get('class', ''):
+                    a = i.find('.//a[@class="name"]')
+                    if a is not None:
+                        files[
+                            i.get('title', '(error-title)')] = a.get('href', None)
 
-        ret = folders, files
+            ret = folders, files
 
     return ret
 
