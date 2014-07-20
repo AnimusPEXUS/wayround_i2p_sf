@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+from distutils.core import setup
+
 setup(
     name='org_wayround_sf',
     version='0.1',
