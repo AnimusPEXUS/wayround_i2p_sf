@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='org_wayround_sf',
-    version='0.1',
+    version='0.1.2',
     description='walk() function for sf.net files',
     author='Alexey Gorshkov',
     author_email='animus@wayround.org',

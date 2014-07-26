@@ -9,7 +9,7 @@ SF_ADDRESS = 'http://sourceforge.net/'
 
 def listdir(project, path='/'):
 
-    ret = None
+    ret = [], []
 
     while path.startswith('/'):
         path = path[1:]
@@ -23,6 +23,7 @@ def listdir(project, path='/'):
     if not path.endswith('/'):
         path = path + '/'
 
+    page_parsed = None
     try:
         page_parsed = lxml.html.parse(
             'http://sourceforge.net/projects/{}/files{}'.format(
