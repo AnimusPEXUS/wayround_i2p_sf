@@ -2,6 +2,7 @@
 
 import lxml.html
 import urllib.request
+import logging
 
 import wayround_org.utils.path
 
@@ -12,9 +13,10 @@ def listdir(project, path='/', proxy=None):
     """
     proxy - dict(host= - ip or domain and port, type= - http or https)
     result: two lists, first - directories, second - files
+        (None, None) tuple means error
     """
 
-    ret = [], []
+    ret = None, None
 
     while path.startswith('/'):
         path = path[1:]
