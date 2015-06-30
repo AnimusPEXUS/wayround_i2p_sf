@@ -92,6 +92,9 @@ def walk(project, path='/', proxy=None):
 
     folders, files = listdir(project, path=path, proxy=proxy)
 
+    if folders is None and files is None:
+        raise Exception("sf.net listdir() func returned error")
+
     yield path, folders, files
 
     for i in folders:
