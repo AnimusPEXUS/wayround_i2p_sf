@@ -7,7 +7,8 @@ import wayround_org.sf.sf
 #    }
 
 tree = wayround_org.sf.sf.tree(
-    'inkscape' 
+    # 'inkscape' 
+    'wine'
     )
     
 print(repr(tree))
