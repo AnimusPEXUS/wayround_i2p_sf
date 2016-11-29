@@ -9,17 +9,17 @@ import random
 import logging
 logging.basicConfig(level='DEBUG')
 
-import wayround_org.sf.sf
-import wayround_org.utils.path
-import wayround_org.utils.file
-import wayround_org.utils.list
+import wayround_i2p.sf.sf
+import wayround_i2p.utils.path
+import wayround_i2p.utils.file
+import wayround_i2p.utils.list
 
 
-PWD = wayround_org.utils.path.abspath(os.path.dirname(__file__))
-log_dir = wayround_org.utils.path.join(PWD, 'log')
-list_dir = wayround_org.utils.path.join(PWD, 'list')
-index_dir = wayround_org.utils.path.join(PWD, 'index')
-out_dir_root = wayround_org.utils.path.join(PWD, 'out')
+PWD = wayround_i2p.utils.path.abspath(os.path.dirname(__file__))
+log_dir = wayround_i2p.utils.path.join(PWD, 'log')
+list_dir = wayround_i2p.utils.path.join(PWD, 'list')
+index_dir = wayround_i2p.utils.path.join(PWD, 'index')
+out_dir_root = wayround_i2p.utils.path.join(PWD, 'out')
 cdoi_f = 'current_download_order_is.txt'
 
 use_proxy = False
@@ -49,7 +49,7 @@ inst_file_list = []
 if len(sys.argv) > 1:
     inst_file_list = sys.argv[1:]
 else:
-    inst_file_list = glob.glob(wayround_org.utils.path.join(list_dir, '*.txt'))
+    inst_file_list = glob.glob(wayround_i2p.utils.path.join(list_dir, '*.txt'))
 
 # working through TOR is not fast, randomize list
 random.shuffle(inst_file_list)
@@ -79,7 +79,7 @@ for i in inst_file_list:
     # previously already saved files
     index = []
 
-    index_fn = wayround_org.utils.path.join(index_dir, p_name)
+    index_fn = wayround_i2p.utils.path.join(index_dir, p_name)
 
     # try to load index
     if os.path.isfile(index_fn):
@@ -94,7 +94,7 @@ for i in inst_file_list:
         index.remove('')
 
     # determine file for logging process
-    log_file = wayround_org.utils.path.join(log_dir, '{}.log'.format(p_name))
+    log_file = wayround_i2p.utils.path.join(log_dir, '{}.log'.format(p_name))
     log_file_old = '{}.old'.format(log_file)
 
     # unlink older one log
@@ -111,7 +111,7 @@ for i in inst_file_list:
 
     # build file directory tree of project hosted on SF.net
     try:
-        sf_project_tree = wayround_org.sf.sf.tree(p_name)
+        sf_project_tree = wayround_i2p.sf.sf.tree(p_name)
     except:
         with open(log_file, 'a') as f:
             f.write("error tree for project {}\n".format(p_name))
@@ -130,7 +130,7 @@ for i in inst_file_list:
         filter_text = f.read()
 
     # calculate output dir
-    out_dir = wayround_org.utils.path.join(
+    out_dir = wayround_i2p.utils.path.join(
         out_dir_root,
         p_name[0],
         p_name[:2],
@@ -150,7 +150,7 @@ for i in inst_file_list:
 
     # remove nonexisting files from index
     for j in index[:]:
-        if not os.path.isfile(wayround_org.utils.path.join(out_dir, j)):
+        if not os.path.isfile(wayround_i2p.utils.path.join(out_dir, j)):
             index.remove(j)
 
     if debug:
@@ -159,7 +159,7 @@ for i in inst_file_list:
             )
 
     # list already saved files
-    files_on_disk = wayround_org.utils.file.files_recurcive_list(
+    files_on_disk = wayround_i2p.utils.file.files_recurcive_list(
         out_dir,
         relative_to=out_dir
         )
@@ -168,7 +168,7 @@ for i in inst_file_list:
         logging.debug("files on disk: {}".format(files_on_disk))
 
     # filter existing files
-    files_on_disk_filtered = wayround_org.utils.list.filter_list(
+    files_on_disk_filtered = wayround_i2p.utils.list.filter_list(
         files_on_disk,
         filter_text
         )
@@ -192,7 +192,7 @@ for i in inst_file_list:
     sf_project_tree_not_filtered = list(sf_project_tree.keys())
     # filter file tree loaded from SF.net with the same filter
     # sf_project_tree_filtered - passed filter and ok to be downloaded
-    sf_project_tree_filtered = wayround_org.utils.list.filter_list(
+    sf_project_tree_filtered = wayround_i2p.utils.list.filter_list(
         sf_project_tree_not_filtered,
         filter_text
         )
@@ -231,10 +231,10 @@ for i in inst_file_list:
     # finally, remove all files listed on deletion
     with open(log_file, 'a') as f:
         for j in files_on_disk_to_del:
-            dst_file = wayround_org.utils.path.join(out_dir, j)
+            dst_file = wayround_i2p.utils.path.join(out_dir, j)
             if os.path.exists(dst_file):
                 f.write("removing {}\n".format(j))
-                wayround_org.utils.file.remove_if_exists(dst_file)
+                wayround_i2p.utils.file.remove_if_exists(dst_file)
 
             while j in index:
                 index.remove(j)
@@ -249,7 +249,7 @@ for i in inst_file_list:
     # download all files which bypassed filter
     for j in sorted(sf_project_tree_filtered):
 
-        dst_file = wayround_org.utils.path.join(out_dir, j)
+        dst_file = wayround_i2p.utils.path.join(out_dir, j)
         dst_dir = os.path.dirname(dst_file)
 
         try:

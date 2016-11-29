@@ -4,7 +4,7 @@ import lxml.html
 import urllib.request
 import logging
 
-import wayround_org.utils.path
+import wayround_i2p.utils.path
 
 SF_ADDRESS = 'https://sourceforge.net'
 
@@ -98,7 +98,7 @@ def walk(project, path='/', proxy=None):
     yield path, folders, files
 
     for i in folders:
-        jo = wayround_org.utils.path.join(path, i)
+        jo = wayround_i2p.utils.path.join(path, i)
         for j in walk(project, jo):
             yield j
 
@@ -116,6 +116,6 @@ def tree(project, proxy=None):
 
     for path, dirs, files in walk(project, proxy=proxy):
         for i in files:
-            all_files[wayround_org.utils.path.join(path, i)] = files[i]
+            all_files[wayround_i2p.utils.path.join(path, i)] = files[i]
 
     return all_files
